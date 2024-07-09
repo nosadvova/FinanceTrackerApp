@@ -19,8 +19,10 @@
 		6775D4B02C3D369500CCD4F6 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4AF2C3D369500CCD4F6 /* TransactionCell.swift */; };
 		6775D4B42C3D39AC00CCD4F6 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6775D4B32C3D39AC00CCD4F6 /* swiftgen.yml */; };
 		6775D4B62C3D39DB00CCD4F6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6775D4B52C3D39DB00CCD4F6 /* Localizable.strings */; };
-		6775D4B82C3D3A6600CCD4F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6775D4B72C3D3A6600CCD4F6 /* Images.xcassets */; };
-		6775D4BA2C3D3A7900CCD4F6 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6775D4B92C3D3A7900CCD4F6 /* Colors.xcassets */; };
+		6775D4BD2C3D459F00CCD4F6 /* VCInsides.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4BC2C3D459F00CCD4F6 /* VCInsides.swift */; };
+		6775D4BF2C3D467500CCD4F6 /* VCStackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4BE2C3D467500CCD4F6 /* VCStackViewController.swift */; };
+		6775D4C22C3D4C8100CCD4F6 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4C12C3D4C8100CCD4F6 /* Transaction.swift */; };
+		6775D4C52C3D77B000CCD4F6 /* DateFromatter + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4C42C3D77B000CCD4F6 /* DateFromatter + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,8 +40,10 @@
 		6775D4AF2C3D369500CCD4F6 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		6775D4B32C3D39AC00CCD4F6 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		6775D4B52C3D39DB00CCD4F6 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		6775D4B72C3D3A6600CCD4F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6775D4B92C3D3A7900CCD4F6 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		6775D4BC2C3D459F00CCD4F6 /* VCInsides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCInsides.swift; sourceTree = "<group>"; };
+		6775D4BE2C3D467500CCD4F6 /* VCStackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCStackViewController.swift; sourceTree = "<group>"; };
+		6775D4C12C3D4C8100CCD4F6 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		6775D4C42C3D77B000CCD4F6 /* DateFromatter + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFromatter + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,8 @@
 			children = (
 				6775D48C2C3C310300CCD4F6 /* AppDelegate.swift */,
 				6775D48E2C3C310300CCD4F6 /* SceneDelegate.swift */,
+				6775D4C32C3D779C00CCD4F6 /* Extensions */,
+				6775D4C02C3D4C7100CCD4F6 /* Models */,
 				6775D4B22C3D390900CCD4F6 /* Resources */,
 				6775D4AD2C3D341400CCD4F6 /* UIComponents */,
 				6775D4A52C3D334B00CCD4F6 /* Modules */,
@@ -115,6 +121,7 @@
 		6775D4AD2C3D341400CCD4F6 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				6775D4BB2C3D423300CCD4F6 /* VCComponents */,
 				6775D4AF2C3D369500CCD4F6 /* TransactionCell.swift */,
 			);
 			path = UIComponents;
@@ -125,10 +132,33 @@
 			children = (
 				6775D4B32C3D39AC00CCD4F6 /* swiftgen.yml */,
 				6775D4B52C3D39DB00CCD4F6 /* Localizable.strings */,
-				6775D4B72C3D3A6600CCD4F6 /* Images.xcassets */,
-				6775D4B92C3D3A7900CCD4F6 /* Colors.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		6775D4BB2C3D423300CCD4F6 /* VCComponents */ = {
+			isa = PBXGroup;
+			children = (
+				6775D4BC2C3D459F00CCD4F6 /* VCInsides.swift */,
+				6775D4BE2C3D467500CCD4F6 /* VCStackViewController.swift */,
+			);
+			path = VCComponents;
+			sourceTree = "<group>";
+		};
+		6775D4C02C3D4C7100CCD4F6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6775D4C12C3D4C8100CCD4F6 /* Transaction.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6775D4C32C3D779C00CCD4F6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6775D4C42C3D77B000CCD4F6 /* DateFromatter + Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,9 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6775D49C2C3C310500CCD4F6 /* LaunchScreen.storyboard in Resources */,
-				6775D4B82C3D3A6600CCD4F6 /* Images.xcassets in Resources */,
 				6775D4B62C3D39DB00CCD4F6 /* Localizable.strings in Resources */,
-				6775D4BA2C3D3A7900CCD4F6 /* Colors.xcassets in Resources */,
 				6775D4992C3C310500CCD4F6 /* Assets.xcassets in Resources */,
 				6775D4B42C3D39AC00CCD4F6 /* swiftgen.yml in Resources */,
 			);
@@ -208,10 +236,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6775D4C22C3D4C8100CCD4F6 /* Transaction.swift in Sources */,
 				6775D4AC2C3D33E000CCD4F6 /* MainViewModel.swift in Sources */,
 				6775D4912C3C310300CCD4F6 /* MainViewController.swift in Sources */,
 				6775D4A92C3D33C200CCD4F6 /* AddTransactionViewModel.swift in Sources */,
+				6775D4C52C3D77B000CCD4F6 /* DateFromatter + Extension.swift in Sources */,
 				6775D48D2C3C310300CCD4F6 /* AppDelegate.swift in Sources */,
+				6775D4BF2C3D467500CCD4F6 /* VCStackViewController.swift in Sources */,
+				6775D4BD2C3D459F00CCD4F6 /* VCInsides.swift in Sources */,
 				6775D4A42C3D332A00CCD4F6 /* AddTransactionViewController.swift in Sources */,
 				6775D48F2C3C310300CCD4F6 /* SceneDelegate.swift in Sources */,
 				6775D4B02C3D369500CCD4F6 /* TransactionCell.swift in Sources */,

@@ -7,6 +7,6 @@
 
 import UIKit
 
-class AddTransactionViewController: UIViewController {
+class AddTransactionViewController: VCStackViewController {
     
 }
