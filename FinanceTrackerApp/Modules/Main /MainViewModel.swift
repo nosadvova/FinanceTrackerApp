@@ -8,5 +8,11 @@
 import Foundation
 
 final class MainViewModel {
+    var transactions: [Transaction]
+    var userBalance: Balance
     
+    init(transactions: [Transaction], userBalance: Balance) {
+        self.transactions = transactions
+        self.userBalance = userBalance
+    }
 }

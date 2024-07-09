@@ -15,19 +15,19 @@ public protocol VCInsides {
     func addContent()
     func configureContent()
     
-    func makeConstrains()
+    func makeConstraints()
 }
 
 public extension VCInsides {
     func loadViews() {
         addContent()
         configureContent()
-        makeConstrains()
+        makeConstraints()
     }
     
     func addContent() {}
     
     func configureContent() {}
     
-    func makeConstrains() {}
+    func makeConstraints() {}
 }
