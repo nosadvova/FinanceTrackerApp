@@ -1,0 +1,25 @@
+strings:
+  inputs:
+    - Resources/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      params:
+        publicAccess: true
+        bundle: Bundle.main
+      output: Strings.generated.swift
+
+xcassets:
+  - inputs: Resources/Colors.xcassets
+    outputs:
+      params:
+        enumName: Colors
+        publicAccess: true
+      templateName: swift5
+      output: Colors.swift
+  - inputs: Resources/Images.xcassets
+    outputs:
+      params:
+        enumName: Assets
+        publicAccess: true
+      templateName: swift5
+      output: Assets.swift
