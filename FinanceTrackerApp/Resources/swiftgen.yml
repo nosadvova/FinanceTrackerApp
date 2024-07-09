@@ -7,3 +7,12 @@ strings:
         publicAccess: true
         bundle: Bundle.main
       output: Strings.generated.swift
+
+xcassets:
+  - inputs: Colors.xcassets
+    outputs:
+      params:
+        enumName: Colors
+        publicAccess: true
+      templateName: swift5
+      output: Colors.swift
