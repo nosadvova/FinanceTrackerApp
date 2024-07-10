@@ -66,6 +66,8 @@ class MainViewController: VCStackViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .darkGreen
         button.setTitle(L10n.Main.addTransaction, for: .normal)
+        button.layer.cornerRadius = 9
+        button.layer.shadowOpacity = 0.5
         
         button.addTarget(self, action: #selector(addTransactionButtonTapped), for: .touchUpInside)
         
@@ -77,7 +79,7 @@ class MainViewController: VCStackViewController {
     private lazy var exchangeRateStackView = setupStackView(views: [btcImageView, exchangeRateLabel], spacing: 15, distribution: .fill)
     private lazy var balanceStackView = setupStackView(views: [balanceLabel, recieveBTCButton])
     
-    private var viewModel: MainViewModel!
+    private var viewModel = MainViewModel(transactions: [], userBalance: Balance(balance: 0.045))
     
     //MARK: - Init
     
@@ -104,7 +106,8 @@ class MainViewController: VCStackViewController {
         
         view.backgroundColor = .backgroundGray
         balanceLabel.contentCompressionResistancePriority(for: .horizontal)
-        transactionsTableView.backgroundColor = .red
+        
+        balanceLabel.text = "Balance: \(viewModel.userBalanceText)"
     }
     
     override func makeConstraints() {
@@ -137,10 +140,9 @@ class MainViewController: VCStackViewController {
     }
     
     @objc private func addTransactionButtonTapped() {
-        
+        let addTransactionViewController = AddTransactionViewController()
+        navigationController?.pushViewController(addTransactionViewController, animated: true)
     }
-    
-    
 }
 
 //MARK: - TableView
@@ -154,6 +156,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! TransactionCell
         
         return cell
+    }
+}
+
+extension MainViewController: RecieveBTCDelegate {
+    func recieveBTC(_ amount: Double) {
+        viewModel.addFunds(amount)
+        print(amount)
+        balanceLabel.text = viewModel.userBalanceText
     }
 }
 

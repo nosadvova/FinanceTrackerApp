@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol RecieveBTCDelegate: AnyObject {
+    func recieveBTC(_ amount: Double)
+}
+
 class PopupViewController: VCStackViewController {
     
     // MARK: - Properties
+    
+    weak var delegate: RecieveBTCDelegate?
     
     private lazy var darkView: UIView = {
         let view = UIView()
@@ -22,7 +28,7 @@ class PopupViewController: VCStackViewController {
         return view
     }()
     
-    private var popupContainerView: UIView = {
+    private lazy var popupContainerView: UIView = {
         let view = UIView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,26 +52,17 @@ class PopupViewController: VCStackViewController {
         return label
     }()
     
-    private lazy var amountTextField: UITextField = {
-        let textField = UITextField()
+    private lazy var amountTextField: NumpadTextField = {
+        let textField = NumpadTextField()
         
-        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = L10n.Main.amount
-        textField.layer.cornerRadius = 8
-        textField.layer.borderWidth = 1
-//        textField.backgroundColor = .clear
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.textColor = .white
-        textField.keyboardType = .decimalPad
-        let tfAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
+        let tfAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder ?? "",
                                                              attributes: tfAttributes)
         
         return textField
     }()
-    
-//    private lazy var amountTextField = CustomTextField()
         
     private lazy var submitButton: UIButton = {
         let button = UIButton(type: .system)
@@ -85,8 +82,6 @@ class PopupViewController: VCStackViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("Presented")
         
         loadViews()
     }
@@ -125,12 +120,12 @@ class PopupViewController: VCStackViewController {
             titleLabel.leadingAnchor.constraint(equalTo: popupContainerView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: popupContainerView.trailingAnchor, constant: -20),
             
-            amountTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            amountTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             amountTextField.leadingAnchor.constraint(equalTo: popupContainerView.leadingAnchor, constant: 20),
             amountTextField.trailingAnchor.constraint(equalTo: popupContainerView.trailingAnchor, constant: -20),
             amountTextField.heightAnchor.constraint(equalToConstant: 42),
                         
-            submitButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 20),
+            submitButton.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 40),
             submitButton.centerXAnchor.constraint(equalTo: popupContainerView.centerXAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: 45),
             submitButton.widthAnchor.constraint(equalToConstant: 150)
@@ -140,18 +135,23 @@ class PopupViewController: VCStackViewController {
     
     // MARK: - Actions
     
-    @objc func dismissActionSheet() {
+    @objc private func dismissActionSheet() {
         self.dismiss(animated: true)
     }
     
     @objc private func submitButtonTapped() {
         guard let amountText = amountTextField.text, !amountText.isEmpty else {
-            // Show an error message or handle the case when the text field is empty
             return
         }
         
-        print("Deposit amount: \(amountText)")
+        let redactedString = amountText.replacingOccurrences(of: ",", with: ".")
         
-        dismiss(animated: true, completion: nil)
+        
+        if let amountNumber = Double(redactedString) {
+            delegate?.recieveBTC(amountNumber)
+            
+            print(amountNumber)
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
