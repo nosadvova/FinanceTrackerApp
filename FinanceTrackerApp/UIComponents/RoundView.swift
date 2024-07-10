@@ -10,19 +10,22 @@ import UIKit
 class RoundView: UIView {
     
     // MARK: - Properties
+//    private var titleLabel: UILabel? = {
+//       let label = UILabel()
+//        label.font = .systemFont(ofSize: 12)
+//        label.textColor = .black
+//        
+//        return label
+//    }()
     
-    private let titleLabel: UILabel?
     private var height: CGFloat
-    private let viewBackgroundColor: UIColor
-    private let viewTintColor: UIColor
     
     // MARK: - Init
-    
-    init(titleLabel: String? = nil, height: CGFloat, viewBackgroundColor: UIColor = .white, viewTintColor: UIColor = .black) {
-        self.titleLabel = titleLabel != nil ? UILabel() : nil
+    init(height: CGFloat) {
+//        if let titleLabel {
+//            self.titleLabel?.text = titleLabel
+//        }
         self.height = height
-        self.viewBackgroundColor = viewBackgroundColor
-        self.viewTintColor = viewTintColor
         
         super.init(frame: .zero)
 
@@ -33,7 +36,7 @@ class RoundView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup view
+    // MARK: - Setup functions
     private func setupRoundView() {
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -44,13 +47,13 @@ class RoundView: UIView {
         layer.shadowRadius = 8
         layer.shadowOffset = CGSize(width: 0, height: 4)
         
-        heightAnchor.constraint(equalToConstant: height).isActive = true
+        self.heightAnchor.constraint(equalToConstant: height).isActive = true
         
-        if let titleLabel = titleLabel {
-            self.addSubview(titleLabel)
-            
-            titleLabel.textColor = .systemGray2
-            titleLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: -10).isActive = true
-        }
+//        if let titleLabel = titleLabel {
+//            self.addSubview(titleLabel)
+//            
+//            titleLabel.textColor = .lightGray
+//            titleLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: -10).isActive = true
+//        }
     }
 }
