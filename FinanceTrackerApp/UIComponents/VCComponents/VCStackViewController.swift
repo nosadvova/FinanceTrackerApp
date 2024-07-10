@@ -36,5 +36,18 @@ class VCStackViewController: UIViewController, VCInsides {
         ])
     }
     
-    
+    func setupStackView(views: [UIView], axis: NSLayoutConstraint.Axis = .horizontal, spacing: CGFloat = 0, distribution: UIStackView.Distribution = .fillEqually) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        views.forEach {
+            stackView.addArrangedSubview($0)
+        }
+        
+        stackView.axis = axis
+        stackView.spacing = spacing
+        stackView.distribution = distribution
+        
+        return stackView
+    }
 }
