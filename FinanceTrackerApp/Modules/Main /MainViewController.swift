@@ -145,6 +145,13 @@ class MainViewController: VCStackViewController {
     }
 }
 
+extension MainViewController: AddTransactionDelegate {
+    func addTransaction(transaction: Transaction) {
+        viewModel.transactions.append(transaction)
+        transactionsTableView.reloadData()
+    }
+}
+
 //MARK: - TableView
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {

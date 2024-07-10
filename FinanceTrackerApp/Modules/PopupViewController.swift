@@ -129,7 +129,6 @@ class PopupViewController: VCStackViewController {
             submitButton.centerXAnchor.constraint(equalTo: popupContainerView.centerXAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: 45),
             submitButton.widthAnchor.constraint(equalToConstant: 150)
-//            submitButton.bottomAnchor.constraint(equalTo: popupContainerView.bottomAnchor, constant: -20)
         ])
     }
     
@@ -144,7 +143,7 @@ class PopupViewController: VCStackViewController {
             return
         }
         
-        let redactedString = amountText.replacingOccurrences(of: ",", with: ".")
+        let redactedString = amountText.replaceWithDot()
         
         
         if let amountNumber = Double(redactedString) {
