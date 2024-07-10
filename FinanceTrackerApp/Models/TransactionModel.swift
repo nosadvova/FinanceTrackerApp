@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Transaction: Identifiable {
+struct TransactionModel: Identifiable {
     var id: String
     var transactionType: TransactionType
     var timestamp: Date
