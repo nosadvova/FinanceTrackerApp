@@ -11,11 +11,19 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
   public enum Main {
+    /// Add transaction
+    public static let addTransaction = L10n.tr("Localizable", "main.addTransaction", fallback: "Add transaction")
+    /// Amount
+    public static let amount = L10n.tr("Localizable", "main.amount", fallback: "Amount")
+    /// Enter Deposit Amount
+    public static let enterDepositAmount = L10n.tr("Localizable", "main.enterDepositAmount", fallback: "Enter Deposit Amount")
     /// Localizable.strings
     ///   FinanceTrackerApp
     /// 
     ///   Created by Vova Novosad on 09.07.2024.
     public static let recieve = L10n.tr("Localizable", "main.recieve", fallback: "Recieve BTC")
+    /// Submit
+    public static let submit = L10n.tr("Localizable", "main.submit", fallback: "Submit")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

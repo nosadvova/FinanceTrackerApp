@@ -7,3 +7,7 @@
 */
 
 "main.recieve" = "Recieve BTC";
+"main.addTransaction" = "Add transaction";
+"main.enterDepositAmount" = "Enter Deposit Amount";
+"main.amount" = "Amount";
+"main.submit" = "Submit";
