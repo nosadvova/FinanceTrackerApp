@@ -10,7 +10,13 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
+  public enum AddTransaction {
+    /// Choose category
+    public static let chooseCategory = L10n.tr("Localizable", "addTransaction.chooseCategory", fallback: "Choose category")
+  }
   public enum Main {
+    /// Add
+    public static let add = L10n.tr("Localizable", "main.add", fallback: "Add")
     /// Add transaction
     public static let addTransaction = L10n.tr("Localizable", "main.addTransaction", fallback: "Add transaction")
     /// Amount

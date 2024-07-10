@@ -8,9 +8,9 @@
 import Foundation
 
 struct Balance {
-    var balance: String
+    var balance: Double
     
-    init(balance: String) {
+    init(balance: Double) {
         self.balance = balance
     }
 }

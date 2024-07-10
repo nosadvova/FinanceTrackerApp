@@ -43,12 +43,16 @@ enum TransactionType: String {
     }
 }
 
-enum TransactionCategory: String {
+enum TransactionCategory: String, CaseIterable {
     case groceries = "Groceries"
     case taxi = "Taxi"
     case electronics = "Electronics"
     case restaurant = "Restaurant"
     case other = "Other"
+    
+    var title: String {
+        self.rawValue
+    }
     
     var image: String {
         switch self {
