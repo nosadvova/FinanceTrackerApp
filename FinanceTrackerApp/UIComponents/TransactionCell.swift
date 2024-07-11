@@ -22,7 +22,6 @@ class TransactionCell: UITableViewCell, VCInsides {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 22
         
         return imageView
     }()
@@ -40,7 +39,7 @@ class TransactionCell: UITableViewCell, VCInsides {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .black
         
         return label
     }()
@@ -49,7 +48,7 @@ class TransactionCell: UITableViewCell, VCInsides {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
-        label.textColor = .white
+        label.textColor = .black
         
         return label
     }()
@@ -60,6 +59,8 @@ class TransactionCell: UITableViewCell, VCInsides {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         loadViews()
+        addContent()
+        makeConstrains()
     }
     
     required init?(coder: NSCoder) {
@@ -82,33 +83,41 @@ class TransactionCell: UITableViewCell, VCInsides {
     private func configureCell() {
         
         guard let transaction = transaction else { return }
-        
-        backgroundColor = .lightGray
-        
+                
         if let category = transaction.category {
             categoryImageView.image = UIImage(systemName: category.image)
         }
         
-        btcAmountLabel.text = "\(transaction.amount)"
+        btcAmountLabel.text = "\(transaction.amount) BTC"
         dateLabel.text = DateFormatter.MMddyy.string(from: transaction.timestamp)
         
         transactionImageView.image = UIImage(systemName: transaction.transactionType.image)
     }
     
     func makeConstrains() {
-        let stackView = UIStackView(arrangedSubviews: [btcAmountLabel, dateLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        
         NSLayoutConstraint.activate([
             categoryImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            categoryImageView.heightAnchor.constraint(equalToConstant: 35),
-            categoryImageView.widthAnchor.constraint(equalToConstant: 35),
+            categoryImageView.heightAnchor.constraint(equalToConstant: 25),
+            categoryImageView.widthAnchor.constraint(equalToConstant: 25),
+            categoryImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+
             
-            stackView.leadingAnchor.constraint(equalTo: categoryImageView.trailingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: transactionImageView.leadingAnchor, constant: -10),
+            btcAmountLabel.leadingAnchor.constraint(equalTo: categoryImageView.trailingAnchor, constant: 20),
+            btcAmountLabel.trailingAnchor.constraint(equalTo: transactionImageView.leadingAnchor, constant: -15),
+            btcAmountLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+//            btcAmountLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -15),
             
-            transactionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            dateLabel.leadingAnchor.constraint(equalTo: btcAmountLabel.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: btcAmountLabel.trailingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: btcAmountLabel.bottomAnchor, constant: 5),
+            dateLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 5),
+            
+            contentView.heightAnchor.constraint(equalToConstant: 75),
+            
+            transactionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            transactionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            transactionImageView.heightAnchor.constraint(equalToConstant: 17),
+            transactionImageView.widthAnchor.constraint(equalToConstant: 17)
         ])
     }
 }

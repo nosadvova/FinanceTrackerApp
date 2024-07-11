@@ -10,21 +10,11 @@ import UIKit
 class RoundView: UIView {
     
     // MARK: - Properties
-//    private var titleLabel: UILabel? = {
-//       let label = UILabel()
-//        label.font = .systemFont(ofSize: 12)
-//        label.textColor = .black
-//        
-//        return label
-//    }()
     
     private var height: CGFloat
     
     // MARK: - Init
     init(height: CGFloat) {
-//        if let titleLabel {
-//            self.titleLabel?.text = titleLabel
-//        }
         self.height = height
         
         super.init(frame: .zero)
@@ -48,12 +38,5 @@ class RoundView: UIView {
         layer.shadowOffset = CGSize(width: 0, height: 4)
         
         self.heightAnchor.constraint(equalToConstant: height).isActive = true
-        
-//        if let titleLabel = titleLabel {
-//            self.addSubview(titleLabel)
-//            
-//            titleLabel.textColor = .lightGray
-//            titleLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: -10).isActive = true
-//        }
     }
 }
