@@ -9,6 +9,7 @@ import UIKit
 
 protocol RecieveBTCDelegate: AnyObject {
     func recieveBTC(_ amount: Double)
+    func addRecieveTransaction(_ transaction: TransactionModel)
 }
 
 class PopupViewController: VCStackViewController {
@@ -16,6 +17,7 @@ class PopupViewController: VCStackViewController {
     // MARK: - Properties
     
     weak var delegate: RecieveBTCDelegate?
+    weak var transactionDelegate: AddTransactionDelegate?
     
     private lazy var darkView: UIView = {
         let view = UIView()
@@ -146,11 +148,23 @@ class PopupViewController: VCStackViewController {
         let redactedString = amountText.replaceWithDot()
         
         
-        if let amountNumber = Double(redactedString) {
-            delegate?.recieveBTC(amountNumber)
+        if let amount = Double(redactedString) {
+            let transaction = TransactionModel(
+                id: UUID(),
+                transactionType: .recieve,
+                timestamp: Date(),
+                amount: amount
+            )
             
-            print(amountNumber)
+            delegate?.recieveBTC(amount)
+            saveTransaction(transaction)
+            
             dismiss(animated: true, completion: nil)
         }
+    }
+    
+    private func saveTransaction(_ transaction: TransactionModel) {
+        delegate?.addRecieveTransaction(transaction)
+        CoreDataManager.shared.saveTransaction(transaction)
     }
 }

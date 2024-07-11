@@ -12,9 +12,7 @@ final class AddTransactionViewModel {
     var transactionCategories: [TransactionCategory] = TransactionCategory.allCases
     var chosenCategory: TransactionCategory?
     
-    init() {
-        
-    }
+    init() {}
     
     var isButtonActive: Bool {
         chosenCategory != nil && transactionAmount != 0

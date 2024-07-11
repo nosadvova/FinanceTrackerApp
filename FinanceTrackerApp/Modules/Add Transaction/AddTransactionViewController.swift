@@ -49,13 +49,13 @@ class AddTransactionViewController: UIViewController {
     private let categoryLabel = SGExpandableChevronView(titleLabel: "", infoLabel: L10n.AddTransaction.chooseCategory)
     
     private lazy var categoriesRoundView = RoundView(height: 65)
-        
+    
     private let categoryTableView: UITableView = {
-         let tableView = UITableView()
-         tableView.translatesAutoresizingMaskIntoConstraints = false
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-         return tableView
-     }()
+        return tableView
+    }()
     
     private var isCategoryViewExpanded: Bool = false
     
@@ -67,7 +67,7 @@ class AddTransactionViewController: UIViewController {
         
         loadViews()
     }
-
+    
     
     //MARK: - Setup view
     
@@ -83,7 +83,7 @@ class AddTransactionViewController: UIViewController {
         categoriesRoundView.addSubview(categoryLabel)
         view.addSubview(categoryTableView)
         view.addSubview(categoriesRoundView)
-
+        
         view.addSubview(addButton)
         
         
@@ -137,10 +137,10 @@ class AddTransactionViewController: UIViewController {
         
         let tableViewHeight = isCategoryViewExpanded ? viewModel.tableViewHeight : 0
         categoryTableView.isHidden = false
-                
+        
         UIView.animate(withDuration: 0.3) {
             self.categoryLabel.chevronViewTapped()
-
+            
             NSLayoutConstraint.deactivate(self.categoryTableView.constraints)
             self.categoryTableView.heightAnchor.constraint(equalToConstant: tableViewHeight).isActive = true
             
@@ -160,34 +160,19 @@ class AddTransactionViewController: UIViewController {
                 amount: amount,
                 category: viewModel.chosenCategory
             )
-
-            delegate?.addTransaction(transaction: transaction)
+            
             saveTransaction(transaction)
-            navigationController?.popViewController(animated: true)
         }
     }
+    
     
     //MARK: - CoreData function
     
     private func saveTransaction(_ transaction: TransactionModel) {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            
-            let context = appDelegate.persistentContainer.viewContext
-            let entity = NSEntityDescription.entity(forEntityName: "TransactionEntity", in: context)!
-            let transactionObject = NSManagedObject(entity: entity, insertInto: context)
-            
-            transactionObject.setValue(transaction.id, forKey: "id")
-            transactionObject.setValue(transaction.amount, forKey: "amount")
-            transactionObject.setValue(transaction.timestamp, forKey: "timestamp")
-            transactionObject.setValue(transaction.transactionType.rawValue, forKey: "transactionType")
-            transactionObject.setValue(transaction.category?.title, forKey: "category")
-            
-            do {
-                try context.save()
-            } catch {
-                print("Failed to save transaction: \(error)")
-            }
-        }
+        delegate?.addTransaction(transaction: transaction)
+        CoreDataManager.shared.saveTransaction(transaction)
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource

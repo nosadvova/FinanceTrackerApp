@@ -93,7 +93,7 @@ class MainViewController: VCStackViewController {
         
         loadViews()
         fetchExchangeRate()
-        fetchTransactions()
+        fetchInitialTransactions()
         fetchBalance()
     }
     
@@ -177,6 +177,26 @@ class MainViewController: VCStackViewController {
         }
     }
     
+    private func fetchInitialTransactions() {
+        viewModel.currentOffset = 0
+        let transactions = CoreDataManager.shared.fetchTransactions(offset: viewModel.currentOffset, limit: viewModel.limit)
+        viewModel.transactions = transactions
+        transactionsTableView.reloadData()
+    }
+    
+    private func fetchMoreTransactions() {
+        guard !viewModel.isFetchingMore else { return }
+        viewModel.isFetchingMore = true
+        
+        let moreTransactions = CoreDataManager.shared.fetchTransactions(offset: viewModel.currentOffset + viewModel.limit, limit: viewModel.limit)
+        viewModel.transactions.append(contentsOf: moreTransactions)
+        
+        viewModel.currentOffset += viewModel.limit
+        viewModel.isFetchingMore = false
+        
+        transactionsTableView.reloadData()
+    }
+    
     private func fetchTransactions() {
         let transactions = CoreDataManager.shared.fetchTransactions()
         viewModel.transactions = transactions
@@ -199,6 +219,11 @@ extension MainViewController: AddTransactionDelegate {
 }
 
 extension MainViewController: RecieveBTCDelegate {
+    func addRecieveTransaction(_ transaction: TransactionModel) {
+        viewModel.transactions.append(transaction)
+        transactionsTableView.reloadData()
+    }
+    
     func recieveBTC(_ amount: Double) {
         viewModel.addFunds(amount)
         balanceLabel.text = viewModel.userBalanceText
@@ -218,9 +243,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let transaction = viewModel.transactions[indexPath.row]
         
         cell.transaction = transaction
-        
+        cell.tintColor = .black
         
         return cell
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            
+            if offsetY > contentHeight - scrollView.frame.size.height {
+                fetchMoreTransactions()
+            }
+        }
 }
 
