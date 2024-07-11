@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol AddTransactionDelegate: AnyObject {
     func addTransaction(transaction: TransactionModel)
@@ -58,7 +59,6 @@ class AddTransactionViewController: UIViewController {
     
     private var isCategoryViewExpanded: Bool = false
     
-//    private lazy var categoryStackView = setupStackView(views: [categoriesRoundView, categoryTableView], axis: .vertical)
     
     //MARK: - Init
     
@@ -67,6 +67,7 @@ class AddTransactionViewController: UIViewController {
         
         loadViews()
     }
+
     
     //MARK: - Setup view
     
@@ -74,7 +75,6 @@ class AddTransactionViewController: UIViewController {
         addContents()
         configureContents()
         makeConstraintss()
-        
     }
     
     private func addContents() {
@@ -91,7 +91,6 @@ class AddTransactionViewController: UIViewController {
     }
     
     private func configureContents() {
-        navigationItem.backButtonTitle = "Back"
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
@@ -150,15 +149,12 @@ class AddTransactionViewController: UIViewController {
     }
     
     @objc private func addTransactionTapped() {
-        
-        print("Before check")
-        
         guard let amountText = amountTextField.text else { return }
         
         if let amount = Double(amountText.replaceWithDot()) {
             
             let transaction = TransactionModel(
-                id: UUID().uuidString,
+                id: UUID(),
                 transactionType: .spend,
                 timestamp: Date(),
                 amount: amount,
@@ -166,11 +162,32 @@ class AddTransactionViewController: UIViewController {
             )
 
             delegate?.addTransaction(transaction: transaction)
-            dismiss(animated: true, completion: nil)
-            
-            print("Here")
+            saveTransaction(transaction)
+            navigationController?.popViewController(animated: true)
         }
     }
+    
+    //MARK: - CoreData function
+    
+    private func saveTransaction(_ transaction: TransactionModel) {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            
+            let context = appDelegate.persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "TransactionEntity", in: context)!
+            let transactionObject = NSManagedObject(entity: entity, insertInto: context)
+            
+            transactionObject.setValue(transaction.id, forKey: "id")
+            transactionObject.setValue(transaction.amount, forKey: "amount")
+            transactionObject.setValue(transaction.timestamp, forKey: "timestamp")
+            transactionObject.setValue(transaction.transactionType.rawValue, forKey: "transactionType")
+            transactionObject.setValue(transaction.category?.title, forKey: "category")
+            
+            do {
+                try context.save()
+            } catch {
+                print("Failed to save transaction: \(error)")
+            }
+        }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource

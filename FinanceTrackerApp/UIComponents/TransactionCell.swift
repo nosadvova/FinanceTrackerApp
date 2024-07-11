@@ -11,6 +11,12 @@ class TransactionCell: UITableViewCell, VCInsides {
     
     //MARK: - Properties
     
+    var transaction: TransactionModel? {
+        didSet {
+            configureCell()
+        }
+    }
+    
     let categoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +45,7 @@ class TransactionCell: UITableViewCell, VCInsides {
         return label
     }()
     
-    private let dateLabel: UILabel = {
+    let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
@@ -52,12 +58,16 @@ class TransactionCell: UITableViewCell, VCInsides {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        loadViews()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        loadViews()
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
     
     //MARK: - Setup view
@@ -69,7 +79,10 @@ class TransactionCell: UITableViewCell, VCInsides {
         contentView.addSubview(categoryImageView)
     }
     
-    func configureContent(transaction: TransactionModel) {
+    private func configureCell() {
+        
+        guard let transaction = transaction else { return }
+        
         backgroundColor = .lightGray
         
         if let category = transaction.category {

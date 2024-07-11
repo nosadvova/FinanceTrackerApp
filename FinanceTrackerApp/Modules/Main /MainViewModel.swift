@@ -21,6 +21,6 @@ final class MainViewModel {
     }
     
     var userBalanceText: String {
-        "\(userBalance.balance) BTC"
+        "Balance: \(userBalance.balance) BTC"
     }
 }

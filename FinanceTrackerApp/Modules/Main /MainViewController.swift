@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: VCStackViewController {
     
@@ -39,7 +40,6 @@ class MainViewController: VCStackViewController {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 17)
-        label.text = "Balance 0.04455555456 BTC"
         label.textColor = .white
         
         return label
@@ -74,7 +74,12 @@ class MainViewController: VCStackViewController {
         return button
     }()
     
-    private let transactionsTableView = UITableView()
+    private let transactionsTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+       
+        return tableView
+    }()
     
     private lazy var exchangeRateStackView = setupStackView(views: [btcImageView, exchangeRateLabel], spacing: 15, distribution: .fill)
     private lazy var balanceStackView = setupStackView(views: [balanceLabel, recieveBTCButton])
@@ -88,6 +93,7 @@ class MainViewController: VCStackViewController {
         
         loadViews()
         fetchExchangeRate()
+        fetchTransactions()
     }
     
     //MARK: - Setup view
@@ -105,10 +111,16 @@ class MainViewController: VCStackViewController {
     override func configureContent() {
         super.configureContent()
         
+        navigationController?.navigationBar.isHidden = true
+        
+        transactionsTableView.delegate = self
+        transactionsTableView.dataSource = self
+        transactionsTableView.register(TransactionCell.self, forCellReuseIdentifier: "TransactionCell")
+        
         view.backgroundColor = .backgroundGray
         balanceLabel.contentCompressionResistancePriority(for: .horizontal)
         
-        balanceLabel.text = "Balance: \(viewModel.userBalanceText)"
+        balanceLabel.text = viewModel.userBalanceText
     }
     
     override func makeConstraints() {
@@ -135,6 +147,8 @@ class MainViewController: VCStackViewController {
     @objc private func recieveBTCButtonTapped() {
         let popupVC = PopupViewController()
         
+        popupVC.delegate = self
+        
         popupVC.modalPresentationStyle = .overCurrentContext
         popupVC.modalTransitionStyle = .crossDissolve
         present(popupVC, animated: true, completion: nil)
@@ -142,8 +156,13 @@ class MainViewController: VCStackViewController {
     
     @objc private func addTransactionButtonTapped() {
         let addTransactionViewController = AddTransactionViewController()
+        
+        addTransactionViewController.delegate = self
+        
         navigationController?.pushViewController(addTransactionViewController, animated: true)
     }
+    
+    //MARK: - Network functionality
     
     private func fetchExchangeRate() {
         ExchangeRateService.shared.fetchExchangeRate { [weak self] value in
@@ -156,12 +175,51 @@ class MainViewController: VCStackViewController {
             }
         }
     }
+    
+    private func fetchTransactions() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TransactionEntity")
+        
+        do {
+            let savedTransactions = try context.fetch(fetchRequest)
+            let transactions = savedTransactions.map { (managedObject) -> TransactionModel in
+                let id = managedObject.value(forKey: "id") as? UUID ?? UUID()
+                let amount = managedObject.value(forKey: "amount") as? Double ?? 0.0
+                let timestamp = managedObject.value(forKey: "timestamp") as? Date ?? Date()
+                let transactionTypeRaw = managedObject.value(forKey: "transactionType") as? String ?? "spend"
+                let categoryTitle = managedObject.value(forKey: "category") as? String
+                
+                let transactionType = TransactionType(rawValue: transactionTypeRaw) ?? .spend
+                let category = TransactionCategory.allCases.first(where: { $0.title == categoryTitle })
+                
+                return TransactionModel(
+                    id: id,
+                    transactionType: transactionType,
+                    timestamp: timestamp,
+                    amount: amount,
+                    category: category
+                )
+            }
+            viewModel.transactions = transactions
+            transactionsTableView.reloadData()
+        } catch {
+            print("Failed to fetch transactions: \(error)")
+        }
+    }
 }
 
 extension MainViewController: AddTransactionDelegate {
     func addTransaction(transaction: TransactionModel) {
         viewModel.transactions.append(transaction)
         transactionsTableView.reloadData()
+    }
+}
+
+extension MainViewController: RecieveBTCDelegate {
+    func recieveBTC(_ amount: Double) {
+        viewModel.addFunds(amount)
+        balanceLabel.text = viewModel.userBalanceText
     }
 }
 
@@ -174,16 +232,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! TransactionCell
+        let transaction = viewModel.transactions[indexPath.row]
+        
+        cell.transaction = transaction
+        
         
         return cell
-    }
-}
-
-extension MainViewController: RecieveBTCDelegate {
-    func recieveBTC(_ amount: Double) {
-        viewModel.addFunds(amount)
-        print(amount)
-        balanceLabel.text = viewModel.userBalanceText
     }
 }
 
