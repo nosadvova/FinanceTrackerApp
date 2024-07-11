@@ -8,14 +8,14 @@
 import UIKit
 
 struct TransactionModel: Identifiable {
-    var id: String
+    var id: UUID
     var transactionType: TransactionType
     var timestamp: Date
     var amount: Double
     var category: TransactionCategory?
     
     init(
-        id: String,
+        id: UUID,
         transactionType: TransactionType,
         timestamp: Date,
         amount: Double,
