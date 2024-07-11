@@ -28,7 +28,7 @@ class MainViewController: VCStackViewController {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15)
-        label.textColor = .systemGray
+        label.textColor = .systemGray4
         label.text = "1 = 12343$"
         
         return label
@@ -87,6 +87,7 @@ class MainViewController: VCStackViewController {
         super.viewDidLoad()
         
         loadViews()
+        fetchExchangeRate()
     }
     
     //MARK: - Setup view
@@ -143,10 +144,22 @@ class MainViewController: VCStackViewController {
         let addTransactionViewController = AddTransactionViewController()
         navigationController?.pushViewController(addTransactionViewController, animated: true)
     }
+    
+    private func fetchExchangeRate() {
+        ExchangeRateService.shared.fetchExchangeRate { [weak self] value in
+            DispatchQueue.main.async {
+                if let value = value {
+                    self?.exchangeRateLabel.text = "1 BTC = $\(value)"
+                } else {
+                    self?.exchangeRateLabel.text = "Failed to load rate"
+                }
+            }
+        }
+    }
 }
 
 extension MainViewController: AddTransactionDelegate {
-    func addTransaction(transaction: Transaction) {
+    func addTransaction(transaction: TransactionModel) {
         viewModel.transactions.append(transaction)
         transactionsTableView.reloadData()
     }

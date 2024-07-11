@@ -69,7 +69,7 @@ class TransactionCell: UITableViewCell, VCInsides {
         contentView.addSubview(categoryImageView)
     }
     
-    func configureContent(transaction: Transaction) {
+    func configureContent(transaction: TransactionModel) {
         backgroundColor = .lightGray
         
         if let category = transaction.category {

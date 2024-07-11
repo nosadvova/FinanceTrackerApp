@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AddTransactionDelegate: AnyObject {
-    func addTransaction(transaction: Transaction)
+    func addTransaction(transaction: TransactionModel)
 }
 
 class AddTransactionViewController: UIViewController {
@@ -157,13 +157,14 @@ class AddTransactionViewController: UIViewController {
         
         if let amount = Double(amountText.replaceWithDot()) {
             
-            let transaction = Transaction(
+            let transaction = TransactionModel(
                 id: UUID().uuidString,
                 transactionType: .spend,
                 timestamp: Date(),
                 amount: amount,
                 category: viewModel.chosenCategory
             )
+
             delegate?.addTransaction(transaction: transaction)
             dismiss(animated: true, completion: nil)
             
@@ -176,7 +177,7 @@ class AddTransactionViewController: UIViewController {
 
 extension AddTransactionViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        TransactionCategory.allCases.count
+        viewModel.transactionCategories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
