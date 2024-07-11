@@ -15,6 +15,8 @@
 		67434A4A2C3F31E300026805 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4C12C3D4C8100CCD4F6 /* TransactionModel.swift */; };
 		675702482C3FA2F70039A5E7 /* BalanceEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675702462C3FA2F70039A5E7 /* BalanceEntity+CoreDataClass.swift */; };
 		675702492C3FA2F70039A5E7 /* BalanceEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675702472C3FA2F70039A5E7 /* BalanceEntity+CoreDataProperties.swift */; };
+		6757024B2C3FA93A0039A5E7 /* Double + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757024A2C3FA93A0039A5E7 /* Double + Extension.swift */; };
+		6757024E2C3FAA640039A5E7 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757024D2C3FAA640039A5E7 /* CoreDataManager.swift */; };
 		6775D48D2C3C310300CCD4F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D48C2C3C310300CCD4F6 /* AppDelegate.swift */; };
 		6775D48F2C3C310300CCD4F6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D48E2C3C310300CCD4F6 /* SceneDelegate.swift */; };
 		6775D4912C3C310300CCD4F6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6775D4902C3C310300CCD4F6 /* MainViewController.swift */; };
@@ -49,6 +51,8 @@
 		672947E12C3F415C00209E96 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		675702462C3FA2F70039A5E7 /* BalanceEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BalanceEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		675702472C3FA2F70039A5E7 /* BalanceEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BalanceEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6757024A2C3FA93A0039A5E7 /* Double + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extension.swift"; sourceTree = "<group>"; };
+		6757024D2C3FAA640039A5E7 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		6775D4892C3C310300CCD4F6 /* FinanceTrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinanceTrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6775D48C2C3C310300CCD4F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6775D48E2C3C310300CCD4F6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +103,14 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		6757024C2C3FAA580039A5E7 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				6757024D2C3FAA640039A5E7 /* CoreDataManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		6775D4802C3C310200CCD4F6 = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +134,7 @@
 		6775D48B2C3C310300CCD4F6 /* FinanceTrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				6757024C2C3FAA580039A5E7 /* CoreData */,
 				672947DE2C3F40D100209E96 /* API */,
 				6775D48C2C3C310300CCD4F6 /* AppDelegate.swift */,
 				6775D48E2C3C310300CCD4F6 /* SceneDelegate.swift */,
@@ -216,6 +229,7 @@
 				6775D4C42C3D77B000CCD4F6 /* DateFromatter + Extension.swift */,
 				6775D4D02C3DA5F000CCD4F6 /* UIStackView + Extension.swift */,
 				67ABD4492C3F1C520093E4FF /* String + Extension.swift */,
+				6757024A2C3FA93A0039A5E7 /* Double + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -309,10 +323,12 @@
 				6775D48D2C3C310300CCD4F6 /* AppDelegate.swift in Sources */,
 				67ABD4422C3F08650093E4FF /* CustomLabel.swift in Sources */,
 				6775D4BF2C3D467500CCD4F6 /* VCStackViewController.swift in Sources */,
+				6757024B2C3FA93A0039A5E7 /* Double + Extension.swift in Sources */,
 				6775D4BD2C3D459F00CCD4F6 /* VCInsides.swift in Sources */,
 				672047772C3F90F0005E75EF /* TransactionEntity+CoreDataClass.swift in Sources */,
 				6775D4A42C3D332A00CCD4F6 /* AddTransactionViewController.swift in Sources */,
 				6775D48F2C3C310300CCD4F6 /* SceneDelegate.swift in Sources */,
+				6757024E2C3FAA640039A5E7 /* CoreDataManager.swift in Sources */,
 				6775D4B02C3D369500CCD4F6 /* TransactionCell.swift in Sources */,
 				6780AC9A2C3ECC7000C5319A /* SGExpandableChevronView.swift in Sources */,
 				675702492C3FA2F70039A5E7 /* BalanceEntity+CoreDataProperties.swift in Sources */,

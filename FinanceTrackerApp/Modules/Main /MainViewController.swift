@@ -40,13 +40,13 @@ class MainViewController: VCStackViewController {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 17)
-        label.textColor = .white
+        label.textColor = .white        
         
         return label
     }()
     
     private lazy var recieveBTCButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(L10n.Main.recieve, for: .normal)
@@ -61,7 +61,7 @@ class MainViewController: VCStackViewController {
     }()
     
     private lazy var addTransactionButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .darkGreen
@@ -77,7 +77,7 @@ class MainViewController: VCStackViewController {
     private let transactionsTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         return tableView
     }()
     
@@ -94,6 +94,7 @@ class MainViewController: VCStackViewController {
         loadViews()
         fetchExchangeRate()
         fetchTransactions()
+        fetchBalance()
     }
     
     //MARK: - Setup view
@@ -177,35 +178,16 @@ class MainViewController: VCStackViewController {
     }
     
     private func fetchTransactions() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TransactionEntity")
-        
-        do {
-            let savedTransactions = try context.fetch(fetchRequest)
-            let transactions = savedTransactions.map { (managedObject) -> TransactionModel in
-                let id = managedObject.value(forKey: "id") as? UUID ?? UUID()
-                let amount = managedObject.value(forKey: "amount") as? Double ?? 0.0
-                let timestamp = managedObject.value(forKey: "timestamp") as? Date ?? Date()
-                let transactionTypeRaw = managedObject.value(forKey: "transactionType") as? String ?? "spend"
-                let categoryTitle = managedObject.value(forKey: "category") as? String
-                
-                let transactionType = TransactionType(rawValue: transactionTypeRaw) ?? .spend
-                let category = TransactionCategory.allCases.first(where: { $0.title == categoryTitle })
-                
-                return TransactionModel(
-                    id: id,
-                    transactionType: transactionType,
-                    timestamp: timestamp,
-                    amount: amount,
-                    category: category
-                )
-            }
-            viewModel.transactions = transactions
-            transactionsTableView.reloadData()
-        } catch {
-            print("Failed to fetch transactions: \(error)")
+        let transactions = CoreDataManager.shared.fetchTransactions()
+        viewModel.transactions = transactions
+        transactionsTableView.reloadData()
+    }
+    
+    private func fetchBalance() {
+        if let balance = CoreDataManager.shared.fetchBalance() {
+            viewModel.userBalance.balance = balance
         }
+        balanceLabel.text = viewModel.userBalanceText
     }
 }
 
@@ -220,6 +202,7 @@ extension MainViewController: RecieveBTCDelegate {
     func recieveBTC(_ amount: Double) {
         viewModel.addFunds(amount)
         balanceLabel.text = viewModel.userBalanceText
+        CoreDataManager.shared.saveBalance(amount)
     }
 }
 

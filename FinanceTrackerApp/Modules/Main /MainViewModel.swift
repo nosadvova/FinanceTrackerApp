@@ -21,6 +21,6 @@ final class MainViewModel {
     }
     
     var userBalanceText: String {
-        "Balance: \(userBalance.balance) BTC"
+        "Balance: \(userBalance.balance.formattedToDecimalPlaces(to: 4)) BTC"
     }
 }
