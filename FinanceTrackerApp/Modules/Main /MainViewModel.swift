@@ -24,6 +24,14 @@ final class MainViewModel {
         userBalance.balance += amount
     }
     
+    func withdrawFunds(_ amount: Double) {
+        userBalance.balance -= amount
+    }
+    
+    var balance: Double {
+        userBalance.balance
+    }
+    
     var userBalanceText: String {
         "Balance: \(userBalance.balance.formattedToDecimalPlaces(to: 4)) BTC"
     }

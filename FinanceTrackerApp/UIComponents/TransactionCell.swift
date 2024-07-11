@@ -87,7 +87,7 @@ class TransactionCell: UITableViewCell, VCInsides {
         if let category = transaction.category {
             categoryImageView.image = UIImage(systemName: category.image)
         }
-        
+                
         btcAmountLabel.text = "\(transaction.amount) BTC"
         dateLabel.text = DateFormatter.MMddyy.string(from: transaction.timestamp)
         
@@ -105,7 +105,6 @@ class TransactionCell: UITableViewCell, VCInsides {
             btcAmountLabel.leadingAnchor.constraint(equalTo: categoryImageView.trailingAnchor, constant: 20),
             btcAmountLabel.trailingAnchor.constraint(equalTo: transactionImageView.leadingAnchor, constant: -15),
             btcAmountLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-//            btcAmountLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -15),
             
             dateLabel.leadingAnchor.constraint(equalTo: btcAmountLabel.leadingAnchor),
             dateLabel.trailingAnchor.constraint(equalTo: btcAmountLabel.trailingAnchor),

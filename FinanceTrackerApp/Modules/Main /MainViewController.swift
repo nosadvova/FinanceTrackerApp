@@ -197,7 +197,7 @@ class MainViewController: VCStackViewController {
         transactionsTableView.reloadData()
     }
     
-    private func fetchTransactions() {
+    private func fetchAllTransactions() {
         let transactions = CoreDataManager.shared.fetchTransactions()
         viewModel.transactions = transactions
         transactionsTableView.reloadData()
@@ -209,11 +209,20 @@ class MainViewController: VCStackViewController {
         }
         balanceLabel.text = viewModel.userBalanceText
     }
+    
+    private func saveBalance(amount: Double) {
+        CoreDataManager.shared.saveBalance(amount)
+    }
 }
 
 extension MainViewController: AddTransactionDelegate {
     func addTransaction(transaction: TransactionModel) {
+        viewModel.withdrawFunds(transaction.amount)
         viewModel.transactions.append(transaction)
+        
+        balanceLabel.text = viewModel.userBalanceText
+        
+        saveBalance(amount: viewModel.balance)
         transactionsTableView.reloadData()
     }
 }
@@ -227,7 +236,7 @@ extension MainViewController: RecieveBTCDelegate {
     func recieveBTC(_ amount: Double) {
         viewModel.addFunds(amount)
         balanceLabel.text = viewModel.userBalanceText
-        CoreDataManager.shared.saveBalance(amount)
+        saveBalance(amount: viewModel.balance)
     }
 }
 
@@ -249,12 +258,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            let offsetY = scrollView.contentOffset.y
-            let contentHeight = scrollView.contentSize.height
-            
-            if offsetY > contentHeight - scrollView.frame.size.height {
-                fetchMoreTransactions()
-            }
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.size.height {
+            fetchMoreTransactions()
+            print("Transactions fetched")
         }
+    }
 }
 
